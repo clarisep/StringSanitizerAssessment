@@ -1,12 +1,20 @@
 package za.co.flash.demo.sanitize.service;
 
-import za.co.flash.demo.sanitize.dto.SensitiveWordResponseDTO;
-
-import java.util.List;
+import za.co.flash.demo.sanitize.dto.SqlReservedWordsResponseDto;
+import za.co.flash.demo.sanitize.model.SqlReservedWord;
 
 public interface SanitizerService {
 
-    SensitiveWordResponseDTO sanitize(String input);
+    String sanitizeWord(String input);
 
-    SensitiveWordResponseDTO findAllWords();
+    SqlReservedWordsResponseDto findAllWords();
+
+    SqlReservedWord addWord(String newWord);
+
+    boolean deleteWordById(Long id);
+
+    boolean deleteWordByValue(String input);
+
+    boolean updateWord(String oldWord, String newWord);
+
 }

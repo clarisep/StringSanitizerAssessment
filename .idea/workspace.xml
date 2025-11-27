@@ -5,13 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1709db18-c725-4654-9a83-2fa44b4ff2d7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/model/UpdateWordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/utils/WordValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/controller/WordSanitizerControllerIT.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/service/SanitizerServiceImplIT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db-init/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db-init/init.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db-init/sql_sensitive_list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/db-init/sql_sensitive_list.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/word-sanitizer-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/controller/WordSanitizerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/controller/WordSanitizerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/dto/SqlReservedWordsResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/dto/SqlReservedWordsResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/exception/ExceptionControllerAdvice.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/exception/ExceptionControllerAdvice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/model/SqlReservedWord.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/model/SqlReservedWord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/service/SanitizerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/service/SanitizerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/service/SanitizerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/service/SanitizerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za/co/flash/demo/sanitize/ClientserviceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za/co/flash/demo/SanitizerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/ClientserviceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/SanitizerApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/test/resources/application-test.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/test/resources/application-test.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/ClientserviceApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/controller/WordSanitizerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/controller/WordSanitizerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/db/SensitiveWordRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/dto/SensitiveWordRequestDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/dto/SensitiveWordResponseDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/exception/CustomDataAccessException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/exception/SanitizationException.class" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/exception/SanitizationException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/model/SensitiveWord.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/service/SanitizerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/service/SanitizerService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/service/SanitizerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/target/classes/za/co/flash/demo/sanitize/service/SanitizerServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/surefire-reports/TEST-za.co.flash.demo.sanitize.ClientserviceApplicationTests.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/surefire-reports/za.co.flash.demo.sanitize.ClientserviceApplicationTests.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/test-classes/application-test.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/target/test-classes/za/co/flash/demo/sanitize/ClientserviceApplicationTests.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +50,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="JUnit5 Test Class" />
         <option value="Class" />
       </list>
     </option>
@@ -41,10 +70,10 @@
     &quot;accountId&quot;: &quot;b4cbf2f3-1ece-42cf-8fa2-5b75aa67f1d2&quot;
   }
 }</component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -65,16 +94,40 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JUnit.SanitizerServiceImplIT.executor": "Run",
+    "JUnit.SanitizerServiceImplIT.testAddWord.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.sanitizeWord.executor": "Debug",
+    "JUnit.SanitizerServiceImplTest.sanitizeWordParameterized.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.sanitizeWordsParameterized (1).executor": "Debug",
+    "JUnit.SanitizerServiceImplTest.sanitizeWordsParameterized.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.testAddWord_NewRecordAddedSuccesfully.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.testAddWord_NewRecordAddedSuccessfully.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.testDeleteWordById_RecordDoesNotExist.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.testOuputForDifferentReservedWords.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.testOutputWhenListOfReservedWordsAreGiven.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.testUpdateWord_NewWordAlreadyExists_ThrowsException.executor": "Run",
+    "JUnit.SanitizerServiceImplTest.testUpdateWord_Success.executor": "Debug",
+    "JUnit.WordSanitizerControllerIT.testUpdateWordByWord.executor": "Run",
     "Maven.sender-service [clean,install].executor": "Run",
     "Maven.word-sanitizer-service [clean,install].executor": "Run",
     "Maven.word-sanitizer-service [clean].executor": "Run",
+    "Maven.word-sanitizer-service [install].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/bongi/StringSanitizerAssessment",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -88,20 +141,128 @@
       <recent name="C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service" />
       <recent name="C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="za.co.flash.demo.sanitize" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="za.co.flash.demo.sanitize.service" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="za.co.flash.demo.sanitize.exception" />
+    </key>
   </component>
-  <component name="RunAnythingCache">
-    <myKeys>
-      <visibility group="Gradle Tasks" flag="true" />
-      <visibility group="HTTP Requests" flag="true" />
-      <visibility group="Maven Goals" flag="true" />
-      <visibility group="Recent projects" flag="true" />
-      <visibility group="Run configurations" flag="true" />
-    </myKeys>
+  <component name="RunManager" selected="JUnit.SanitizerServiceImplIT.testAddWord">
+    <configuration name="SanitizerServiceImplIT" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="word-sanitizer-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="za.co.flash.demo.sanitize.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="za.co.flash.demo.sanitize.service" />
+      <option name="MAIN_CLASS_NAME" value="za.co.flash.demo.sanitize.service.SanitizerServiceImplIT" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SanitizerServiceImplIT.testAddWord" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="word-sanitizer-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="za.co.flash.demo.sanitize.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="za.co.flash.demo.sanitize.service" />
+      <option name="MAIN_CLASS_NAME" value="za.co.flash.demo.sanitize.service.SanitizerServiceImplIT" />
+      <option name="METHOD_NAME" value="testAddWord" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SanitizerServiceImplTest.testUpdateWord_NewWordAlreadyExists_ThrowsException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="word-sanitizer-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="za.co.flash.demo.sanitize.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="za.co.flash.demo.sanitize.service" />
+      <option name="MAIN_CLASS_NAME" value="za.co.flash.demo.sanitize.service.SanitizerServiceImplTest" />
+      <option name="METHOD_NAME" value="testUpdateWord_NewWordAlreadyExists_ThrowsException" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SanitizerServiceImplTest.testUpdateWord_Success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="word-sanitizer-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="za.co.flash.demo.sanitize.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="za.co.flash.demo.sanitize.service" />
+      <option name="MAIN_CLASS_NAME" value="za.co.flash.demo.sanitize.service.SanitizerServiceImplTest" />
+      <option name="METHOD_NAME" value="testUpdateWord_Success" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WordSanitizerControllerIT.testUpdateWordByWord" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="word-sanitizer-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="za.co.flash.demo.sanitize.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="za.co.flash.demo.sanitize.controller" />
+      <option name="MAIN_CLASS_NAME" value="za.co.flash.demo.sanitize.controller.WordSanitizerControllerIT" />
+      <option name="METHOD_NAME" value="testUpdateWordByWord" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SanitizerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="word-sanitizer-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="za.co.flash.demo.SanitizerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SanitizerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="word-sanitizer-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="za.co.flash.demo.sanitize.SanitizerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SanitizerServiceImplIT.testAddWord" />
+        <item itemvalue="JUnit.SanitizerServiceImplIT" />
+        <item itemvalue="JUnit.WordSanitizerControllerIT.testUpdateWordByWord" />
+        <item itemvalue="JUnit.SanitizerServiceImplTest.testUpdateWord_NewWordAlreadyExists_ThrowsException" />
+        <item itemvalue="JUnit.SanitizerServiceImplTest.testUpdateWord_Success" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
         <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
       </set>
     </attachedChunks>
   </component>
@@ -112,7 +273,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1764230521357</updated>
-      <workItem from="1764266039413" duration="3128000" />
+      <workItem from="1764266039413" duration="22012000" />
+      <workItem from="1764512292514" duration="11059000" />
     </task>
     <servers />
   </component>
@@ -123,9 +285,38 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/word-sanitizer-service/src/main/java/za/co/flash/demo/sanitize/dto/SensitiveWordResponseDTO.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/service/SanitizerServiceImplTest.java</url>
+          <line>71</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/service/SanitizerServiceImplTest.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/service/SanitizerServiceImplTest.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/service/SanitizerServiceImplTest.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/service/SanitizerServiceImplTest.java</url>
+          <line>138</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/word-sanitizer-service/src/test/java/za/co/flash/demo/sanitize/service/SanitizerServiceImplTest.java</url>
+          <line>81</line>
+          <properties class="za.co.flash.demo.sanitize.service.SanitizerServiceImplTest" method="testAddWord_NewRecordAddedSuccessfully">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
