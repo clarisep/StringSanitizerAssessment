@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   # -------------------------
   # MSSQL Database
@@ -9,31 +7,34 @@ services:
     container_name: sqlserver
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "sanitize1"
+      SA_PASSWORD: "sanitize1_2025!!!"
     ports:
       - "1433:1433"
     volumes:
       - mssql_data:/var/opt/mssql
-      - ./db-init:/db-init
-    command: >
-      /bin/bash -c "/opt/mssql/bin/sqlservr & sleep 20 &&
-      /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'sanitize1' -i /db-init/init.sql &&
-      wait"
+      - ./db-init:/docker-entrypoint-initdb.d   # <-- place init scripts here
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "echo > /dev/tcp/localhost/1433" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
-  # -------------------------
+
+    # -------------------------
   # Word Sanitizer Microservice
   # -------------------------
   word-sanitizer-service:
     build: ./word-sanitizer-service
     container_name: word-sanitizer-service
-    ports:HO
+    ports:
       - "8080:8080"
     depends_on:
-      - mssql
+      mssql:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:sqlserver://mssql:1433;databaseName=sanitizerdb
       SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: sanitize1
+      SPRING_DATASOURCE_PASSWORD: sanitize1_2025!!!
 
 
 # -------------------------
