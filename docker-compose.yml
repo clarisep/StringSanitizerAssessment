@@ -4,23 +4,46 @@ services:
   # -------------------------
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
+    container_name: mssql
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "sanitize1_2025!!!"
+      SA_PASSWORD: "San1tize_2025"
     ports:
       - "1433:1433"
     volumes:
       - mssql_data:/var/opt/mssql
-      - ./db-init:/docker-entrypoint-initdb.d   # <-- place init scripts here
+      - ./db-init:/db-init     # <--- contains init.sql and other files
     healthcheck:
-      test: [ "CMD", "bash", "-c", "echo > /dev/tcp/localhost/1433" ]
+      test: ["CMD-SHELL", "pgrep sqlservr > /dev/null"]
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 15
 
 
-    # -------------------------
+
+  # -------------------------
+  # DB Init (creates sanitizerdb and seeds data)
+  # -------------------------
+  db-init:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      mssql:
+        condition: service_healthy
+    volumes:
+      - ./db-init:/db-init
+    entrypoint: >
+      bash -c "
+        echo 'Waiting for SQL Server to accept connections...';
+        for i in {1..20}; do
+          /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P 'San1tize_2025' -Q 'SELECT 1' && break;
+          echo 'SQL still starting... retry in 5s';
+          sleep 5;
+        done;
+        echo 'Running init.sql...';
+        /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P 'San1tize_2025' -i /db-init/init.sql
+      "
+
+  # -------------------------
   # Word Sanitizer Microservice
   # -------------------------
   word-sanitizer-service:
@@ -31,14 +54,12 @@ services:
     depends_on:
       mssql:
         condition: service_healthy
+      db-init:
+        condition: service_completed_successfully
     environment:
-      SPRING_DATASOURCE_URL: jdbc:sqlserver://mssql:1433;databaseName=sanitizerdb
+      SPRING_DATASOURCE_URL: "jdbc:sqlserver://mssql:1433;databaseName=sanitizerdb;encrypt=false;trustServerCertificate=true;"
       SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: sanitize1_2025!!!
+      SPRING_DATASOURCE_PASSWORD: "San1tize_2025"
 
-
-# -------------------------
-# Volumes
-# -------------------------
 volumes:
   mssql_data:

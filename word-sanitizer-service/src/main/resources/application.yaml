@@ -3,9 +3,9 @@ spring:
     name: word-sanitizer-service
 
   datasource:
-    url: jdbc:sqlserver://mssql:1433;databaseName=sanitizerdb;encrypt=true;trustServerCertificate=true;
+    url: "jdbc:sqlserver://mssql:1433;databaseName=sanitizerdb;encrypt=false;trustServerCertificate=true;"
     username: sa
-    password: sanitize1_2025!!!
+    password: San1tize_2025
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     hikari:
       connection-timeout: 30000       # wait max 30s for a connection
