@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.flash.demo.sanitize.dto.SensitiveWordResponseDTO;
@@ -21,7 +22,7 @@ public class WordSanitizerController {
             @ApiResponse(responseCode = "200", description = "Sanitized string returned"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    @PostMapping
+    @PostMapping(consumes = "text/plain")
     public ResponseEntity<SensitiveWordResponseDTO> sanitizeString(@Valid @RequestBody final String input) {
         SensitiveWordResponseDTO sensitiveWordResponseDTO = sanitizerService.sanitize(input);
         return ResponseEntity.ok(sensitiveWordResponseDTO);
