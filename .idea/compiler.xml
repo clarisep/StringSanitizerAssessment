@@ -7,11 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="word-sanitizer-service" />
-        <module name="word-sanitizer-service (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="stringsanitizer" target="25" />
+      <module name="word-sanitizer-service (1)" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

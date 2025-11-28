@@ -1,0 +1,10 @@
+za\co\flash\demo\sanitize\dto\SensitiveWordRequestDTO.class
+za\co\flash\demo\sanitize\exception\CustomDataAccessException.class
+za\co\flash\demo\sanitize\service\SanitizerServiceImpl.class
+za\co\flash\demo\sanitize\service\SanitizerService.class
+za\co\flash\demo\sanitize\ClientserviceApplication.class
+za\co\flash\demo\sanitize\exception\SanitizationException.class
+za\co\flash\demo\sanitize\dto\SensitiveWordResponseDTO.class
+za\co\flash\demo\sanitize\controller\WordSanitizerController.class
+za\co\flash\demo\sanitize\model\SensitiveWord.class
+za\co\flash\demo\sanitize\db\SensitiveWordRepository.class

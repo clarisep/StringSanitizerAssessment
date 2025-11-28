@@ -1,0 +1,10 @@
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za.co.flash.demo.sanitize\controller\WordSanitizerController.java
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za.co.flash.demo.sanitize\db\SensitiveWordRepository.java
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za.co.flash.demo.sanitize\dto\SensitiveWordRequestDTO.java
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za.co.flash.demo.sanitize\dto\SensitiveWordResponseDTO.java
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za.co.flash.demo.sanitize\exception\CustomDataAccessException.java
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za.co.flash.demo.sanitize\exception\SanitizationException.java
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za.co.flash.demo.sanitize\model\SensitiveWord.java
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za.co.flash.demo.sanitize\service\SanitizerService.java
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za.co.flash.demo.sanitize\service\SanitizerServiceImpl.java
+C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java\za\co\flash\demo\sanitize\ClientserviceApplication.java

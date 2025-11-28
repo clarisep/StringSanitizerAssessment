@@ -5,8 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1709db18-c725-4654-9a83-2fa44b4ff2d7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/IntelliLang.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/word-sanitizer-service/HELP.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db-init/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db-init/init.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db-init/sql_sensitive_list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/db-init/sql_sensitive_list.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/com/data/client/flash/clientservice/ClientserviceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za/co/flash/demo/sanitize/ClientserviceApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/controller/WordSanitizerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/controller/WordSanitizerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/service/SanitizerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/service/SanitizerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za/co/flash/demo/sanitize/dto/SensitiveWordRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/dto/SensitiveWordRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za/co/flash/demo/sanitize/dto/SensitiveWordResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/dto/SensitiveWordResponseDTO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +80,11 @@
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/bongi/StringSanitizerAssessment",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -83,6 +98,9 @@
       <recent name="C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service" />
       <recent name="C:\Users\bongi\StringSanitizerAssessment\word-sanitizer-service\src\main\java" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="za.co.flash.demo.sanitize" />
+    </key>
   </component>
   <component name="RunAnythingCache">
     <myKeys>
@@ -92,6 +110,15 @@
       <visibility group="Recent projects" flag="true" />
       <visibility group="Run configurations" flag="true" />
     </myKeys>
+  </component>
+  <component name="RunManager">
+    <configuration name="ClientserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="word-sanitizer-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="za.co.flash.demo.sanitize.ClientserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -107,7 +134,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1764230521357</updated>
-      <workItem from="1764266039413" duration="4830000" />
+      <workItem from="1764266039413" duration="15537000" />
     </task>
     <servers />
   </component>
@@ -118,7 +145,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/word-sanitizer-service/src/main/java/za/co/flash/demo/sanitize/dto/SensitiveWordResponseDTO.java</url>
+          <url>file://$PROJECT_DIR$/word-sanitizer-service/src/main/java/za.co.flash.demo.sanitize/dto/SqlReservedWordsResponseDto.java</url>
           <line>30</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>

@@ -26,24 +26,18 @@ CREATE TABLE sensitive_words (
 );
 END
 GO
+DECLARE @json NVARCHAR(MAX);
 
--- 3️⃣ Bulk insert from file (plain text)
---    Each line is a phrase; supports multi-word phrases
---    UTF-8 safe
-BULK INSERT sensitive_words (word)
-FROM '/db-init/sql_sensitive_list.txt'
-WITH (
-    FIELDTERMINATOR = '\n',   -- treat entire line as one field
-    ROWTERMINATOR = '\n',
-    FIRSTROW = 1,
-    CODEPAGE = '65001',       -- UTF-8
-    DATAFILETYPE = 'char'
-);
-GO
+SELECT @json = BulkColumn
+FROM OPENROWSET(
+             BULK '/db-init/sql_sensitive_list.txt',
+             SINGLE_CLOB
+     ) AS j;
 
--- 4️⃣ Optional: trim spaces from words
-UPDATE sensitive_words
-SET word = LTRIM(RTRIM(word));
-GO
+INSERT INTO sensitive_words (word)
+SELECT value
+FROM OPENJSON(@json);
+
+
 
 PRINT 'Database initialization complete!';
