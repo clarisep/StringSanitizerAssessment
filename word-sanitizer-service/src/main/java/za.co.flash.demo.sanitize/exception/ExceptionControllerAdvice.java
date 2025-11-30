@@ -13,15 +13,18 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ExceptionControllerAdvice {
 
-    @ExceptionHandler(SanitizationException.class)
-    public ResponseEntity<String> handleSanitizationException(final SanitizationException ex) {
+    @ExceptionHandler({SanitizationException.class, DuplicateRecordException.class, IllegalArgumentException.class})
+    public ResponseEntity<String> handleException(final Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(RecordNotFoundException.class)
+    public ResponseEntity<String> handleRecordNotFoundException(final RecordNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> handleConstraintViolationException(final ConstraintViolationException ex) {
-
-        // Collect all violation messages into a list
         List<String> messages = ex.getConstraintViolations()
                 .stream()
                 .map(cv -> cv.getPropertyPath() + ": " + cv.getMessage())
@@ -31,17 +34,11 @@ public class ExceptionControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    @ExceptionHandler(RecordNotFoundException.class)
-    public ResponseEntity<String> handleRecordNotFoundException(final RecordNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
-
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(final ValidationException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(List.of(ex.getMessage())));
     }
-
 
 }
 

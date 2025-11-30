@@ -5,7 +5,7 @@ import za.co.flash.demo.sanitize.model.SqlReservedWord;
 
 public interface SanitizerService {
 
-    SqlReservedWordsResponseDto sanitizeWord(String input);
+    String sanitizeWord(String input);
 
     SqlReservedWordsResponseDto findAllWords();
 
@@ -13,5 +13,8 @@ public interface SanitizerService {
 
     boolean deleteWordById(Long id);
 
-    boolean updateWord(Long id, String newWord);
+    boolean deleteWordByValue(String input);
+
+    boolean updateWord(String oldWord, String newWord);
+
 }

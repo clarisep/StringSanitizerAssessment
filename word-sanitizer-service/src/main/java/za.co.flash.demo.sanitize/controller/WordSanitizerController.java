@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.flash.demo.sanitize.dto.SqlReservedWordsResponseDto;
+import za.co.flash.demo.sanitize.model.UpdateWordRequest;
 import za.co.flash.demo.sanitize.service.SanitizerService;
 
 @RestController
@@ -27,8 +28,8 @@ public class WordSanitizerController {
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     @PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<SqlReservedWordsResponseDto> sanitizeString(@Valid @RequestBody final String input) {
-        SqlReservedWordsResponseDto responseDto = sanitizerService.sanitizeWord(input);
+    public ResponseEntity<?> sanitizeString(@Valid @RequestBody final String input) {
+        String responseDto = sanitizerService.sanitizeWord(input);
         return ResponseEntity.ok(responseDto);
     }
 
@@ -47,17 +48,17 @@ public class WordSanitizerController {
     }
 
     // ---------------------------
-    // PUT: Update a word by ID
+    // PUT: Update an old word
     // ---------------------------
-    @Operation(summary = "Update a sensitive word by ID")
+    @Operation(summary = "Update a sensitive word by with a new word")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Word updated successfully"),
             @ApiResponse(responseCode = "404", description = "Word not found"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateWord(@PathVariable final Long id, @RequestBody final String newWord) {
-        sanitizerService.updateWord(id, newWord);
+    @PutMapping("/update/by-word")
+    public ResponseEntity<?> updateWordByWord(@RequestBody final UpdateWordRequest request) {
+        sanitizerService.updateWord(request.getOldWord(), request.getNewWord());
         return ResponseEntity.ok("Word updated successfully.");
     }
 
@@ -72,6 +73,20 @@ public class WordSanitizerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteWord(@PathVariable final  Long id) {
         sanitizerService.deleteWordById(id);
+        return ResponseEntity.ok("Word deleted successfully.");
+    }
+
+    // ---------------------------
+    // DELETE: Delete a word by value
+    // ---------------------------
+    @Operation(summary = "Delete a sensitive word by value")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Word deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Word not found")
+    })
+    @DeleteMapping("/value/{word}")
+    public ResponseEntity<?> deleteWordByValue(@PathVariable final String word) {
+        sanitizerService.deleteWordByValue(word);
         return ResponseEntity.ok("Word deleted successfully.");
     }
 }
