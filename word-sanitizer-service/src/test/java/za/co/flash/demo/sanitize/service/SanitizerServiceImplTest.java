@@ -72,7 +72,7 @@ class SanitizerServiceImplTest {
 
         when(repository.findAll()).thenReturn(listOfReservedWords);
 
-        String input = "I want to select * from this table and check the CURRENT_PATH";
+        String input = "I want to select * from this place and check the CURRENT_PATH";
 
         // Act: sanitize the input string
         String sanitized = sanitizerService.sanitizeWord(input);
@@ -80,7 +80,7 @@ class SanitizerServiceImplTest {
         // Assert: both reserved phrases should be masked
         assertNotNull(sanitized);
         String output = "I want to " + "*".repeat(phrase1.length()) +
-                " this table and check the " + "*".repeat(phrase2.length());
+                " this place and check the " + "*".repeat(phrase2.length());
         log.info(output);
         assertEquals(output.toUpperCase(), sanitized);
     }
@@ -148,6 +148,35 @@ class SanitizerServiceImplTest {
     }
 
     @Test
+    void testFindByWord_WordExists() {
+        // Arrange: mock repository to find an entity
+        SqlReservedWord entity = new SqlReservedWord();
+        when(repository.findByWord(any())).thenReturn(Optional.of(entity));
+
+        // Act: find a word
+        SqlReservedWordDto dto = sanitizerService.findByWord("ABC");
+        assertNotNull(dto);
+
+        // Assert: repository.findByWord should be called once
+        verify(repository, times(1)).findByWord(anyString());
+    }
+
+    @Test
+    void testFindByWord_WordDoesNotExist() {
+        // Arrange: mock repository to find an entity
+        when(repository.findByWord(any())).thenReturn(Optional.empty());
+
+        // Act & Assert: adding a duplicate should throw DuplicateRecordException
+        RecordNotFoundException ex = assertThrows(
+                RecordNotFoundException.class,
+                () -> sanitizerService.findByWord("SELECT"));
+
+        assertTrue(ex.getMessage().contains("does not exist"));
+        // Assert: repository.findByWord should be called once
+        verify(repository, times(1)).findByWord(anyString());
+    }
+
+    @Test
     void testDeleteWordById_RecordExists() {
         // Arrange: mock repository to return a word by ID
         Long id = 1L;
@@ -195,11 +224,11 @@ class SanitizerServiceImplTest {
         when(repository.save(any(SqlReservedWord.class))).thenReturn(oldWord);
 
         // Act: update the word
-        boolean result = sanitizerService.updateWord(oldWord.getWord(), newWord);
+        SqlReservedWordDto result = sanitizerService.updateWord(oldWord.getWord(), newWord);
 
         // Assert: update should succeed and word should be changed
-        assertTrue(result, "Expected updateWord to return true");
-        assertEquals(newWord, oldWord.getWord(), "Word should be updated");
+        assertNotNull(result);
+        assertEquals(newWord, result.getWord());
         verify(repository, times(1)).findByWord(newWord);
         verify(repository, times(1)).save(oldWord);
     }

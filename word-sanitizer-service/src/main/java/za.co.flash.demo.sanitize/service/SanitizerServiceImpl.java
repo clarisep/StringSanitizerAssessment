@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import za.co.flash.demo.sanitize.db.SqlReservedWordRepository;
@@ -17,6 +18,7 @@ import za.co.flash.demo.sanitize.exception.DuplicateRecordException;
 import za.co.flash.demo.sanitize.entity.SqlReservedWord;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -30,25 +32,24 @@ public class SanitizerServiceImpl implements SanitizerService {
         log.info("Sanitizing input {} ", input);
         List<String> sensitiveWords;
         try {
-            // find all the words in the db table
             sensitiveWords = repository.findAll()
                     .stream()
                     .map(SqlReservedWord::getWord)
-                    .map(String::toUpperCase)
-                    .toList();
+                    .toList(); // keep original case
         } catch (Exception e) {
             throw new SanitizationException("Unexpected error while fetching sensitive words", e);
         }
 
-        String sanitized = input.toUpperCase();
+        String sanitized = input;
         for (String word : sensitiveWords) {
             if (!word.isEmpty()) {
-                sanitized = sanitized.replaceAll("(?i)" + java.util.regex.Pattern.quote(word),
-                        "*".repeat(word.length()));
+                String regex = "(?i)" + Pattern.quote(word);
+                sanitized = sanitized.replaceAll(regex, "*".repeat(word.length()));
             }
         }
 
-        return sanitized;
+        return sanitized.toUpperCase();
+
     }
 
     @Cacheable("reservedWords")
@@ -65,7 +66,8 @@ public class SanitizerServiceImpl implements SanitizerService {
     }
 
     @Override
-    @CacheEvict(value = "reservedWordsList", allEntries = true) // clear list cache
+    @Transactional
+    @CacheEvict(value = "reservedWords", allEntries = true) // clear list cache
     @CachePut(value = "reservedWordByValue", key = "#newWord")  // update single-word cache
     public SqlReservedWordDto addWord(final String newWord) {
         log.info("Attempting to add a new word {}", newWord);
@@ -83,7 +85,23 @@ public class SanitizerServiceImpl implements SanitizerService {
     }
 
     @Override
-    @CacheEvict("reservedWords")
+    @Cacheable(value = "reservedWordByValue", key = "#word")
+    public SqlReservedWordDto findByWord(final String word) {
+        log.info("Finding reserved word by value {}", word);
+
+        SqlReservedWord entity = repository.findByWord(word)
+                .orElseThrow(() -> new RecordNotFoundException("The input '" + word + "' does not exist"));
+
+        return new SqlReservedWordDto(entity.getId(), entity.getWord());
+    }
+
+    @Override
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "reservedWords", allEntries = true),
+            @CacheEvict(value = "reservedWordByValue", allEntries = true) // clear all single-word cache entries
+    })
+
     public boolean deleteWordById(final Long id) {
         log.info("Deleting word by id {}", id);
         SqlReservedWord entity = repository.findById(id)
@@ -93,20 +111,29 @@ public class SanitizerServiceImpl implements SanitizerService {
     }
 
     @Override
-    @CacheEvict(value = "reservedWords", allEntries = true)
-    public boolean deleteWordByValue(final String input) {
-        log.info("Deleting word by value {}", input);
-        SqlReservedWord entity = repository.findByWord(input)
-                .orElseThrow(() -> new RecordNotFoundException("The input " + input + " does not exist"));
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "reservedWords", allEntries = true),
+            @CacheEvict(value = "reservedWordByValue", key = "#word")
+    })
+    public boolean deleteWordByValue(final String word) {
+        log.info("Deleting word by value {}", word);
+        SqlReservedWord entity = repository.findByWord(word)
+                .orElseThrow(() -> new RecordNotFoundException("The word " + word + " does not exist"));
         repository.delete(entity);
         return true;
     }
 
+
     @Override
     @Transactional
-    @CacheEvict(value = "reservedWordsList", allEntries = true) // clear list cache
-    @CachePut(value = "reservedWordByValue", key = "#newWord")  // update with newword
-    public boolean updateWord(final String oldWord, final String newWord) {
+    @Caching(evict = {
+            @CacheEvict(value = "reservedWords", allEntries = true), // clear list cache
+            @CacheEvict(value = "reservedWordByValue", key = "#oldWord") // clear old word cache
+    }, put = {
+            @CachePut(value = "reservedWordByValue", key = "#newWord") // update with new word
+    })
+    public SqlReservedWordDto updateWord(final String oldWord, final String newWord) {
         log.info("Update word {} with new word {}", oldWord, newWord);
         SqlReservedWord entity = repository.findByWord(oldWord)
                 .orElseThrow(() -> new RecordNotFoundException(
@@ -118,6 +145,6 @@ public class SanitizerServiceImpl implements SanitizerService {
 
         entity.setWord(newWord);
         repository.save(entity);
-        return true;
+        return new SqlReservedWordDto(entity.getId(), entity.getWord());
     }
 }

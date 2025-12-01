@@ -8,6 +8,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import za.co.flash.demo.sanitize.dto.SqlReservedWordDto;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -56,9 +58,9 @@ class SanitizerServiceImplIT {
         sanitizerService.addWord("INSERT");
         sanitizerService.addWord("DROP");
 
-        var response = sanitizerService.findAllWords();
-        assertEquals("INSERT", response.get(0).getWord());
-        assertEquals("DROP", response.get(1).getWord());
+        List<SqlReservedWordDto> response = sanitizerService.findAllWords();
+        assertTrue(response.stream().anyMatch(dto -> "INSERT".equals(dto.getWord())));
+        assertTrue(response.stream().anyMatch(dto -> "DROP".equals(dto.getWord())));
     }
 
     @Test
@@ -66,8 +68,9 @@ class SanitizerServiceImplIT {
     @Transactional
     void testUpdateWord() {
         sanitizerService.addWord("ALTER");
-        boolean updated = sanitizerService.updateWord("ALTER", "ALTERED");
-        assertTrue(updated);
+        SqlReservedWordDto dto = sanitizerService.updateWord("ALTER", "ALTERED");
+        assertNotNull(dto);
+        assertEquals("ALTERED", dto.getWord());
     }
 
     @Test

@@ -12,10 +12,12 @@ public interface SanitizerService {
 
     SqlReservedWordDto addWord(String newWord);
 
+    SqlReservedWordDto findByWord(String word);
+
     boolean deleteWordById(Long id);
 
     boolean deleteWordByValue(String input);
 
-    boolean updateWord(String oldWord, String newWord);
+    SqlReservedWordDto updateWord(String oldWord, String newWord);
 
 }

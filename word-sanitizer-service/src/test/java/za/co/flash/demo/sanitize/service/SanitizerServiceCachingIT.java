@@ -1,12 +1,15 @@
 package za.co.flash.demo.sanitize.service;
 
 
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -23,6 +26,8 @@ import static org.mockito.Mockito.*;
 @EnableCaching
 @ActiveProfiles("test")
 @TestPropertySource("classpath:application-test.properties")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import(SanitizerServiceImpl.class)
 class SanitizerServiceCachingIT {
 
     @Autowired
@@ -50,13 +55,12 @@ class SanitizerServiceCachingIT {
         List<SqlReservedWordDto> secondCall = sanitizerService.findAllWords();
         assertEquals(1, secondCall.size());
 
-        // Verify repository.findAll() was called only once
         verify(repository, times(1)).findAll();
     }
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     @Order(2)
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void testCacheEvictOnAddWord() {
         // Arrange: mock repository to return one word
         SqlReservedWord word = new SqlReservedWord();
