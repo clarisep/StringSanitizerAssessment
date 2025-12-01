@@ -2,32 +2,35 @@ package za.co.flash.demo.sanitize.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import za.co.flash.demo.sanitize.db.SqlReservedWordRepository;
-import za.co.flash.demo.sanitize.dto.SqlReservedWordsResponseDto;
+import za.co.flash.demo.sanitize.dto.SqlReservedWordDto;
 import za.co.flash.demo.sanitize.exception.EntitySaveException;
 import za.co.flash.demo.sanitize.exception.RecordNotFoundException;
 import za.co.flash.demo.sanitize.exception.SanitizationException;
 import za.co.flash.demo.sanitize.exception.DuplicateRecordException;
-import za.co.flash.demo.sanitize.model.SqlReservedWord;
-import za.co.flash.demo.sanitize.utils.WordValidator;
+import za.co.flash.demo.sanitize.entity.SqlReservedWord;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SanitizerServiceImpl implements SanitizerService {
 
     private final SqlReservedWordRepository repository;
 
     @Override
     public String sanitizeWord(final String input) {
-        WordValidator.validateWord(input);
+        log.info("Sanitizing input {} ", input);
         List<String> sensitiveWords;
         try {
-            //find all the words in the db table
+            // find all the words in the db table
             sensitiveWords = repository.findAll()
                     .stream()
                     .map(SqlReservedWord::getWord)
@@ -48,75 +51,73 @@ public class SanitizerServiceImpl implements SanitizerService {
         return sanitized;
     }
 
+    @Cacheable("reservedWords")
     @Override
-    public SqlReservedWordsResponseDto findAllWords() {
-        List<SqlReservedWord> wordsList = repository.findAll();
-        if (wordsList.isEmpty()) {
-            throw new RecordNotFoundException("No reserved words found in the database.");
+    public List<SqlReservedWordDto> findAllWords() {
+        log.info("Finding all words in the table");
+        List<SqlReservedWord> words = repository.findAll();
+        if (words.isEmpty()) {
+            throw new RecordNotFoundException("No reserved words found in the database. Table is empty");
         }
-        return new SqlReservedWordsResponseDto(wordsList.stream().map(SqlReservedWord::getWord).toList());
+        return words.stream()
+                .map(e -> new SqlReservedWordDto(e.getId(), e.getWord()))
+                .toList();
     }
 
     @Override
-    public SqlReservedWord addWord(final String newWord) {
-        WordValidator.validateWord(newWord);
+    @CacheEvict(value = "reservedWordsList", allEntries = true) // clear list cache
+    @CachePut(value = "reservedWordByValue", key = "#newWord")  // update single-word cache
+    public SqlReservedWordDto addWord(final String newWord) {
+        log.info("Attempting to add a new word {}", newWord);
         SqlReservedWord entity = new SqlReservedWord();
         entity.setWord(newWord);
+
         try {
-            return repository.save(entity);
+            SqlReservedWord saved = repository.save(entity);
+            return new SqlReservedWordDto(saved.getId(), saved.getWord());
         } catch (DataIntegrityViolationException e) {
-            throw new DuplicateRecordException("The word '" + newWord + "' already exists.", e);
+            throw new DuplicateRecordException("The input '" + newWord + "' already exists.", e);
         } catch (Exception e) {
-            throw new EntitySaveException("Failed to save the word '" + newWord + "'.", e);
+            throw new EntitySaveException("Failed to save the input '" + newWord + "'.", e);
         }
     }
 
     @Override
+    @CacheEvict("reservedWords")
     public boolean deleteWordById(final Long id) {
-        //check if the entity exists
-        Optional<SqlReservedWord> word = repository.findById(id);
-        if (word.isPresent()) {
-            repository.deleteById(id);
-            return true;
-        } else {
-            throw new RecordNotFoundException("The id " + id + " does not exist");
-        }
+        log.info("Deleting word by id {}", id);
+        SqlReservedWord entity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("The id " + id + " does not exist"));
+        repository.delete(entity);
+        return true;
     }
 
     @Override
+    @CacheEvict(value = "reservedWords", allEntries = true)
     public boolean deleteWordByValue(final String input) {
-        // check if the entity exists
-        Optional<SqlReservedWord> word = repository.findByWord(input);
-        if (word.isPresent()) {
-            repository.delete(word.get());
-            return true;
-        } else {
-            throw new RecordNotFoundException("The word " + input + " does not exist");
-        }
+        log.info("Deleting word by value {}", input);
+        SqlReservedWord entity = repository.findByWord(input)
+                .orElseThrow(() -> new RecordNotFoundException("The input " + input + " does not exist"));
+        repository.delete(entity);
+        return true;
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = "reservedWordsList", allEntries = true) // clear list cache
+    @CachePut(value = "reservedWordByValue", key = "#newWord")  // update with newword
     public boolean updateWord(final String oldWord, final String newWord) {
-        WordValidator.validateWord(oldWord);
-        WordValidator.validateWord(newWord);
-        // Fetch entity by oldWord (source must exist)
+        log.info("Update word {} with new word {}", oldWord, newWord);
         SqlReservedWord entity = repository.findByWord(oldWord)
                 .orElseThrow(() -> new RecordNotFoundException(
-                        "The word '" + oldWord + "' does not exist"));
+                        "The old input '" + oldWord + "' does not exist"));
 
-        // Check if the new word already exists (duplicate check)
         if (repository.findByWord(newWord).isPresent()) {
-            throw new DuplicateRecordException(
-                    "The word '" + newWord + "' already exists.");
+            throw new DuplicateRecordException("The input to be added '" + newWord + "' already exists.");
         }
 
-        //Update and save
         entity.setWord(newWord);
         repository.save(entity);
         return true;
     }
-
 }
-
-

@@ -1,13 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: za.co.flash.demo.sanitize.service.SanitizerServiceImplTest
 -------------------------------------------------------------------------------
-Tests run: 12, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 24.01 s <<< FAILURE! -- in za.co.flash.demo.sanitize.service.SanitizerServiceImplTest
-za.co.flash.demo.sanitize.service.SanitizerServiceImplTest.testSanitize_OutputWhenListOfReservedWordsAreGivenInAString -- Time elapsed: 0.209 s <<< ERROR!
-java.lang.IllegalArgumentException: Word contains invalid characters
-	at za.co.flash.demo.sanitize.utils.WordValidator.validateWord(WordValidator.java:14)
-	at za.co.flash.demo.sanitize.service.SanitizerServiceImpl.sanitizeWord(SanitizerServiceImpl.java:27)
-	at za.co.flash.demo.sanitize.service.SanitizerServiceImplTest.testSanitize_OutputWhenListOfReservedWordsAreGivenInAString(SanitizerServiceImplTest.java:68)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.050 s -- in za.co.flash.demo.sanitize.service.SanitizerServiceImplTest

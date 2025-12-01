@@ -21,8 +21,9 @@ IF OBJECT_ID('sensitive_words', 'U') IS NULL
 BEGIN
     PRINT 'Creating table sensitive_words...';
 CREATE TABLE sensitive_words (
-                                 id INT PRIMARY KEY IDENTITY(1,1),
-                                 word VARCHAR(1000) NOT NULL
+                                 CREATE TABLE sensitive_words (
+    id BIGINT PRIMARY KEY IDENTITY(1,1),
+    word VARCHAR(1000) NOT NULL
 );
 END
 GO

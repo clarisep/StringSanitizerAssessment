@@ -1,15 +1,16 @@
 package za.co.flash.demo.sanitize.service;
 
-import za.co.flash.demo.sanitize.dto.SqlReservedWordsResponseDto;
-import za.co.flash.demo.sanitize.model.SqlReservedWord;
+import za.co.flash.demo.sanitize.dto.SqlReservedWordDto;
+
+import java.util.List;
 
 public interface SanitizerService {
 
     String sanitizeWord(String input);
 
-    SqlReservedWordsResponseDto findAllWords();
+    List<SqlReservedWordDto> findAllWords();
 
-    SqlReservedWord addWord(String newWord);
+    SqlReservedWordDto addWord(String newWord);
 
     boolean deleteWordById(Long id);
 

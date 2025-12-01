@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-import za.co.flash.demo.sanitize.model.SqlReservedWord;
+import za.co.flash.demo.sanitize.dto.SqlReservedWordDto;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +23,7 @@ class SanitizerServiceImplIT {
     @Order(1)
     void testAddWord() {
         // Add a new word
-        SqlReservedWord word = sanitizerService.addWord("SELECT");
+        SqlReservedWordDto word = sanitizerService.addWord("SELECT");
         assertNotNull(word.getId());
         assertEquals("SELECT", word.getWord());
     }
@@ -32,7 +32,7 @@ class SanitizerServiceImplIT {
     @Order(2)
     void testAddAnotherWord() {
         // Add another word
-        SqlReservedWord word = sanitizerService.addWord("UPDATE");
+        SqlReservedWordDto word = sanitizerService.addWord("UPDATE");
         assertNotNull(word.getId());
         assertEquals("UPDATE", word.getWord());
     }
@@ -57,8 +57,8 @@ class SanitizerServiceImplIT {
         sanitizerService.addWord("DROP");
 
         var response = sanitizerService.findAllWords();
-        assertTrue(response.getWords().contains("INSERT"));
-        assertTrue(response.getWords().contains("DROP"));
+        assertEquals("INSERT", response.get(0).getWord());
+        assertEquals("DROP", response.get(1).getWord());
     }
 
     @Test
@@ -81,7 +81,7 @@ class SanitizerServiceImplIT {
     @Test
     @Order(7)
     void testDeleteWordById() {
-        SqlReservedWord word = sanitizerService.addWord("CREATE");
+        SqlReservedWordDto word = sanitizerService.addWord("CREATE");
         boolean deleted = sanitizerService.deleteWordById(word.getId());
         assertTrue(deleted);
     }
