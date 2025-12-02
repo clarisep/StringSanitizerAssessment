@@ -71,6 +71,9 @@ public class SanitizerServiceImpl implements SanitizerService {
     @CachePut(value = "reservedWordByValue", key = "#newWord")  // update single-word cache
     public SqlReservedWordDto addWord(final String newWord) {
         log.info("Attempting to add a new word {}", newWord);
+        if (repository.findByWord(newWord).isPresent()) {
+            throw new DuplicateRecordException("The input to be added '" + newWord + "' already exists.");
+        }
         SqlReservedWord entity = new SqlReservedWord();
         entity.setWord(newWord);
 
@@ -91,6 +94,17 @@ public class SanitizerServiceImpl implements SanitizerService {
 
         SqlReservedWord entity = repository.findByWord(word)
                 .orElseThrow(() -> new RecordNotFoundException("The input '" + word + "' does not exist"));
+
+        return new SqlReservedWordDto(entity.getId(), entity.getWord());
+
+    }
+    @Override
+    @Cacheable(value = "reservedWordByValue", key = "#id")
+    public SqlReservedWordDto findById(final Long id) {
+        log.info("Finding reserved word by id {}", id);
+
+        SqlReservedWord entity = repository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("The input '" + id + "' does not exist"));
 
         return new SqlReservedWordDto(entity.getId(), entity.getWord());
     }

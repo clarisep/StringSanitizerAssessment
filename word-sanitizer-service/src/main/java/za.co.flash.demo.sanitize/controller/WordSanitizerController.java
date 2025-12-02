@@ -10,8 +10,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import za.co.flash.demo.sanitize.dto.SqlReservedWordDto;
 import za.co.flash.demo.sanitize.exception.ErrorResponse;
@@ -20,11 +22,11 @@ import za.co.flash.demo.sanitize.model.UpdateWordRequest;
 import za.co.flash.demo.sanitize.service.SanitizerService;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/sanitize")
 @RequiredArgsConstructor
+@Validated
 public class WordSanitizerController {
 
     private final SanitizerService sanitizerService;
@@ -37,7 +39,7 @@ public class WordSanitizerController {
             @ApiResponse(responseCode = "200", description = "Sanitized string returned",
                     content = @Content(mediaType = "text/plain")),
             @ApiResponse(responseCode = "400", description = "Invalid input",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -45,6 +47,27 @@ public class WordSanitizerController {
         return ResponseEntity.ok(sanitizerService.sanitizeWord(request.getInput()));
     }
 
+    // ---------------------------
+// POST: Add a new reserved word
+// ---------------------------
+    @Operation(summary = "Add a new reserved SQL word")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Reserved word created successfully",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SqlReservedWordDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "409", description = "Duplicate record",
+                    content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SqlReservedWordDto> addWord(
+            @Valid @RequestBody final SanitizeRequest input ) {
+        SqlReservedWordDto dto = sanitizerService.addWord(input.getInput());
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    }
 
     // ---------------------------
     // GET: List all words
@@ -53,7 +76,7 @@ public class WordSanitizerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of SQL reserved words returned"),
             @ApiResponse(responseCode = "404", description = "No reserved words found",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -70,16 +93,34 @@ public class WordSanitizerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Reserved word found"),
             @ApiResponse(responseCode = "404", description = "Reserved word not found",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping(path = "/{word}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/word/{word}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SqlReservedWordDto> findByWord(
             @NotBlank(message = "Input must not be blank")
             @Pattern(regexp = "^[A-Za-z_][A-Za-z0-9_ *]*$",
                     message = "Input must start with a letter or underscore, and may only contain letters, digits, underscores, spaces, or asterisks")
             @PathVariable("word") final String word) {
         SqlReservedWordDto dto = sanitizerService.findByWord(word);
+        return ResponseEntity.ok(dto);
+    }
+    // ----------------------------
+    // GET : Find word by value
+    //-----------------------------
+    @Operation(summary = "Find reserved word by id",
+            description = "Fetches a reserved SQL word from the database by its value. Returns 404 if the id does not exist.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "ID found"),
+            @ApiResponse(responseCode = "404", description = "ID not found",
+                    content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping(path = "/id/{id" +
+            "}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SqlReservedWordDto> findById(
+            @PathVariable("id") final Long id) {
+        SqlReservedWordDto dto = sanitizerService.findById(id);
         return ResponseEntity.ok(dto);
     }
 
@@ -90,10 +131,10 @@ public class WordSanitizerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Record updated successfully"),
             @ApiResponse(responseCode = "404", description = "Record not found",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PutMapping(value = "/update-by-word", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -109,13 +150,13 @@ public class WordSanitizerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Record deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Record not found",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid ID",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @DeleteMapping(value = "/delete-by-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/delete-by-id/{id}")
     public ResponseEntity<String> deleteWordById(
             @PathVariable("id") @Min(value = 1, message = "ID must be greater than 0") final Long id) {
         sanitizerService.deleteWordById(id);
@@ -129,18 +170,14 @@ public class WordSanitizerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Record deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Record not found",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @DeleteMapping(value = "/delete-by-word/{word}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> deleteWordByValue(
-            @NotBlank(message = "Input must not be blank")
-            @Pattern(regexp = "^[A-Za-z_][A-Za-z0-9_ *]*$",
-                    message = "Input must start with a letter or underscore, and may only contain letters, digits, underscores, spaces, or asterisks")
-            @PathVariable("word") final String word) {
+    @DeleteMapping(value = "/delete-by-word/{word}")
+    public ResponseEntity<String> deleteWordByValue(@PathVariable("word") final String word) {
         sanitizerService.deleteWordByValue(word);
         return ResponseEntity.ok("Record deleted successfully.");
     }

@@ -12,6 +12,8 @@ public interface SanitizerService {
 
     SqlReservedWordDto addWord(String newWord);
 
+    SqlReservedWordDto findById(Long id);
+
     SqlReservedWordDto findByWord(String word);
 
     boolean deleteWordById(Long id);

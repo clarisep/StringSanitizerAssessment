@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import za.co.flash.demo.sanitize.dto.SqlReservedWordDto;
+import za.co.flash.demo.sanitize.exception.DuplicateRecordException;
 import za.co.flash.demo.sanitize.exception.RecordNotFoundException;
 import za.co.flash.demo.sanitize.service.SanitizerService;
 
@@ -60,6 +61,50 @@ class WordSanitizerControllerIT {
     }
 
     @Test
+    void addWord_validInput_returnsCreatedWord() throws Exception {
+        // Arrange
+        SqlReservedWordDto dto = new SqlReservedWordDto(1L, "SELECT1");
+        when(sanitizerService.addWord("SELECT1")).thenReturn(dto);
+
+        // Act & Assert
+        mockMvc.perform(post("/sanitize/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"input\":\"SELECT1\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.word").value("SELECT1"));
+    }
+
+    @Test
+    void addWord_invalidInput_returnsBadRequest() throws Exception {
+        // Act & Assert
+        mockMvc.perform(post("/sanitize/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"input\":\"34249798@#!$\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+                .andExpect(jsonPath("$.errors[0]").value(
+                        "Input must start with a letter or underscore, and may only contain letters, digits, underscores, spaces, or asterisks"
+                ));
+    }
+
+    @Test
+    void addWord_duplicateInput_returnsConflict() throws Exception {
+        // Arrange
+        when(sanitizerService.addWord("SELECT"))
+                .thenThrow(new DuplicateRecordException("The input 'SELECT' already exists."));
+
+        // Act & Assert
+        mockMvc.perform(post("/sanitize/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"input\":\"SELECT\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+                .andExpect(jsonPath("$.errors[0]").value("The input 'SELECT' already exists."));
+    }
+
+    @Test
     void testGetAllReservedWords() throws Exception {
         String word = "SELECT";
         SqlReservedWordDto dto = new SqlReservedWordDto(word);
@@ -81,7 +126,7 @@ class WordSanitizerControllerIT {
         when(sanitizerService.findByWord("SELECT")).thenReturn(dto);
 
         // Act & Assert
-        mockMvc.perform(get("/sanitize/SELECT") // endpoint path
+        mockMvc.perform(get("/sanitize/word/SELECT") // endpoint path
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -95,9 +140,23 @@ class WordSanitizerControllerIT {
                 .thenThrow(new RecordNotFoundException("The input 'DROP' does not exist"));
 
         // Act & Assert
-        mockMvc.perform(get("/sanitize/DROP")
+        mockMvc.perform(get("/sanitize/word/DROP")
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON));
+    }
+
+    @Test
+    void testFindId_IdDoesNotExist() throws Exception {
+        // Arrange
+        when(sanitizerService.findById(1L))
+                .thenThrow(new RecordNotFoundException("The id 1L does not exist"));
+
+        // Act & Assert
+        mockMvc.perform(get("/sanitize/id/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON));
     }
 
     @Test

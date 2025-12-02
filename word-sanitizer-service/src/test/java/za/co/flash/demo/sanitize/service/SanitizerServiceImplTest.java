@@ -166,7 +166,7 @@ class SanitizerServiceImplTest {
         // Arrange: mock repository to find an entity
         when(repository.findByWord(any())).thenReturn(Optional.empty());
 
-        // Act & Assert: adding a duplicate should throw DuplicateRecordException
+        // Act & Assert:
         RecordNotFoundException ex = assertThrows(
                 RecordNotFoundException.class,
                 () -> sanitizerService.findByWord("SELECT"));
@@ -176,6 +176,34 @@ class SanitizerServiceImplTest {
         verify(repository, times(1)).findByWord(anyString());
     }
 
+    @Test
+    void testFindById_IdExists() {
+        // Arrange: mock repository to find an entity
+        SqlReservedWord entity = new SqlReservedWord();
+        when(repository.findById(any())).thenReturn(Optional.of(entity));
+
+        // Act: find a word
+        SqlReservedWordDto dto = sanitizerService.findById(222L);
+        assertNotNull(dto);
+
+        // Assert: repository.findById should be called once
+        verify(repository, times(1)).findById(anyLong());
+    }
+
+    @Test
+    void testFindById_IdDoesNotExist() {
+        // Arrange: mock repository to find an entity
+        when(repository.findById(any())).thenReturn(Optional.empty());
+
+        // Act & Assert:
+        RecordNotFoundException ex = assertThrows(
+                RecordNotFoundException.class,
+                () -> sanitizerService.findById(201L));
+
+        assertTrue(ex.getMessage().contains("does not exist"));
+        // Assert: repository.findById should be called once
+        verify(repository, times(1)).findById(anyLong());
+    }
     @Test
     void testDeleteWordById_RecordExists() {
         // Arrange: mock repository to return a word by ID
